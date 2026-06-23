@@ -164,7 +164,9 @@ def render_closing(slide, ctx):
 RENDERERS = {"cover": render_cover, "interview": render_interview, "closing": render_closing}
 
 
-def build(spec):
+def render_parts(spec):
+    """스펙을 (title, css, [슬라이드 HTML...]) 로 분해. 전체 페이지(build)와
+    슬라이드별 PNG export(export_png) 양쪽에서 재사용한다."""
     theme = spec.get("theme", {})
     bg = theme.get("bg", "#0e0e10")
     accent = theme.get("accent", "#5DCAA5")
@@ -194,6 +196,11 @@ body{{background:#f2f0e9;display:flex;flex-direction:column;align-items:center;g
             raise ValueError(f"알 수 없는 슬라이드 type: {stype!r} (cover/interview/closing)")
         rendered.append(renderer(slide, ctx))
 
+    return title, css, rendered
+
+
+def build(spec):
+    title, css, rendered = render_parts(spec)
     return (f'<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">'
             f'<title>{title}</title><link rel="stylesheet" href="{PRETENDARD}">'
             f'<style>{css}</style></head><body>' + "".join(rendered) + '</body></html>')

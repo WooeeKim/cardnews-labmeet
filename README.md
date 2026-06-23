@@ -67,6 +67,14 @@ git clone https://github.com/WooeeKim/cardnews-labmeet ~/.claude/skills/intervie
 python scripts/generate_cardnews.py examples/sample-spec.json -o out.html
 ```
 
+인스타에 바로 올릴 이미지가 필요하면, 시스템에 깔린 Chrome으로 슬라이드별 PNG를 뽑습니다. 추가 설치는 없습니다.
+
+```bash
+python scripts/export_png.py examples/sample-spec.json -o png/ --prefix raving
+```
+
+기본 2배 배율이라 슬라이드당 2160×2700 PNG가 나옵니다. 인스타 압축을 거쳐도 또렷합니다. 원본 크기(1080×1350)가 필요하면 `--scale 1`을 붙입니다. 샘플 결과물은 `examples/png/`에 있습니다.
+
 스펙을 어떻게 채우는지는 `examples/sample-spec.json`을 그대로 복제해서 내용만 바꾸면 됩니다. 슬라이드 타입(cover, interview, closing)별 필드와 자동 처리되는 규칙은 `SKILL.md`에 정리돼 있고, 디자인 토큰 전체와 손으로 조정하는 법은 `references/design-system.md`에 있습니다.
 
 ## 폴더 구성
