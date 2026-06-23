@@ -22,14 +22,24 @@
   },
 
   "엑스레이": {
-    "aliases": ["exray", "ex-ray", "엑스레이카뉴"],
-    "label": "EX-Ray",
+    "aliases": ["exray", "ex-ray", "엑스레이카뉴", "엑레이"],
+    "label": "EX-Ray (크림 종이 + 핑크)",
     "brand": { "name": "EX-Ray", "suffix": "" },
-    "theme": { "bg": "#0b0d12", "accent": "#5BA7D9", "bubble_gray_bg": "#23262e", "answer_text": "#06243a" },
-    "voice": "전 연인 카톡 분석 서비스. 사람한테 와닿게, 살짝 서늘하고 담담하게. 과장·영업 톤 금지, 줄표 금지.",
+    "theme": {
+      "bg": "#fffaf0",
+      "accent": "#ff2e63",
+      "text": "#0d0d0d",
+      "text_rgb": "13,13,13",
+      "bubble_gray_bg": "#f4f0e6",
+      "question_text": "#0d0d0d",
+      "answer_text": "#ffffff",
+      "body_font": "'Gowun Dodum', serif",
+      "extra_fonts": ["https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"]
+    },
+    "voice": "전 연인 카톡 분석 서비스. 크림 종이 위 잉크 텍스트, 핑크(#ff2e63) 포인트. 후기·인용은 고운돋움 세리프로 1인칭 목소리를 살린다. 살짝 서늘하고 담담하게, 사람한테 와닿게. 과장·영업 톤 금지, 줄표 금지.",
     "cta": "exray.kr",
-    "draft": true,
-    "_note": "색·말투 임시값. 처음 쓸 때 사용자에게 확정받고 갱신할 것."
+    "draft": false,
+    "_source": "~/Downloads/exray landing.html :root 토큰에서 추출 (bg #fffaf0, ink #0d0d0d, pink #ff2e63, yellow #ffd60a, 폰트 Pretendard + 고운돋움)."
   },
 
   "김우이": {

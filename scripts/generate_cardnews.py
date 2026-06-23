@@ -73,7 +73,7 @@ def render_cover(slide, ctx):
                      'height:64px;border-radius:50%;background:rgba(255,255,255,0.18);"></div>')
     if q:
         parts.append(f'<div style="position:absolute;left:168px;top:300px;background:'
-                     f'{ctx["bubble_gray_bg"]};color:#eee;font-size:36px;padding:20px 30px;'
+                     f'{ctx["bubble_gray_bg"]};color:{ctx["question_text"]};font-size:36px;padding:20px 30px;'
                      f'border-radius:34px 34px 34px 10px;">{esc(q)}</div>')
     if a:
         parts.append(f'<div style="position:absolute;right:80px;top:415px;background:{accent};'
@@ -134,22 +134,23 @@ def render_closing(slide, ctx):
     lh = slide.get("headline_line_height", 1.22)
     parts.append(f'<div class="h" style="top:{htop}px;font-size:{hsize}px;'
                  f'line-height:{lh};">{esc(headline)}</div>')
+    trgb = ctx["text_rgb"]
     # 짧은 인용 모음 (text + byline 블록을 150px 간격으로)
     quotes = slide.get("quotes", [])
     top = slide.get("quotes_top", 550)
     for qt in quotes:
         parts.append(f'<div style="position:absolute;left:80px;top:{top}px;font-size:37px;'
-                     f'color:rgba(255,255,255,0.85);">{esc(qt.get("text",""))}</div>')
+                     f'color:rgba({trgb},0.85);">{esc(qt.get("text",""))}</div>')
         if qt.get("byline"):
             parts.append(f'<div style="position:absolute;left:80px;top:{top+52}px;font-size:30px;'
-                         f'color:rgba(255,255,255,0.4);">{esc(qt["byline"])}</div>')
+                         f'color:rgba({trgb},0.4);">{esc(qt["byline"])}</div>')
         top += 150
     # 안내 문단
     note = slide.get("note")
     if note:
         ntop = slide.get("note_top", 1105)
         parts.append(f'<div style="position:absolute;left:80px;top:{ntop}px;width:920px;'
-                     f'font-size:33px;line-height:1.55;color:rgba(255,255,255,0.55);">{esc(note)}</div>')
+                     f'font-size:33px;line-height:1.55;color:rgba({trgb},0.55);">{esc(note)}</div>')
     # CTA
     cta = slide.get("cta")
     if cta:
@@ -166,31 +167,43 @@ RENDERERS = {"cover": render_cover, "interview": render_interview, "closing": re
 
 def render_parts(spec):
     """스펙을 (title, css, [슬라이드 HTML...]) 로 분해. 전체 페이지(build)와
-    슬라이드별 PNG export(export_png) 양쪽에서 재사용한다."""
+    슬라이드별 PNG export(export_png) 양쪽에서 재사용한다.
+
+    테마는 어두운 배경(기본, 랩미)과 밝은 배경(예: EX-Ray 크림) 둘 다 지원한다.
+    밝은 테마는 text/text_rgb 를 잉크색으로 주면 흐린 글자들이 자동으로 잉크 기반이 된다."""
     theme = spec.get("theme", {})
     bg = theme.get("bg", "#0e0e10")
     accent = theme.get("accent", "#5DCAA5")
+    text = theme.get("text", "#fff")              # 메인 텍스트(제목/브랜드)
+    text_rgb = theme.get("text_rgb", "255,255,255")  # 흐린 글자 rgba 기준
     bubble_gray_bg = theme.get("bubble_gray_bg", "#2a2a2e")
+    question_text = theme.get("question_text", "#eee")  # 표지 질문 말풍선 글자색
     answer_text = theme.get("answer_text", "#04342C")
+    body_font = theme.get("body_font")            # 본문 전용 폰트(예: 고운돋움 세리프)
+    extra_fonts = theme.get("extra_fonts", [])    # 추가로 불러올 폰트 CSS URL들
     brand = brand_html(spec.get("brand", {}))
     title = esc(spec.get("title", "랩미 magazine"))
     slides = spec.get("slides", [])
     total = len(slides)
 
-    css = f"""*{{margin:0;padding:0;box-sizing:border-box;}}body{{font-family:'Pretendard',sans-serif;}}
-.slide{{width:1080px;height:1350px;background:{bg};color:#fff;position:relative;overflow:hidden;}}
+    imports = "".join(f"@import url('{u}');" for u in extra_fonts)
+    body_font_decl = f"font-family:{body_font};" if body_font else ""
+
+    css = f"""{imports}*{{margin:0;padding:0;box-sizing:border-box;}}body{{font-family:'Pretendard',sans-serif;}}
+.slide{{width:1080px;height:1350px;background:{bg};color:{text};position:relative;overflow:hidden;}}
 .brand{{position:absolute;left:80px;top:64px;font-size:42px;font-weight:500;}}.brand span{{color:{accent};}}
-.counter{{position:absolute;right:80px;top:72px;font-size:33px;color:rgba(255,255,255,0.4);}}
-.h{{position:absolute;left:80px;font-weight:700;color:#fff;letter-spacing:-1px;}}
-.info{{position:absolute;left:80px;font-size:32px;font-weight:500;color:rgba(255,255,255,0.5);}}
-.body{{position:absolute;left:80px;width:920px;font-size:34px;line-height:1.74;color:rgba(255,255,255,0.8);}}
+.counter{{position:absolute;right:80px;top:72px;font-size:33px;color:rgba({text_rgb},0.4);}}
+.h{{position:absolute;left:80px;font-weight:700;color:{text};letter-spacing:-1px;}}
+.info{{position:absolute;left:80px;font-size:32px;font-weight:500;color:rgba({text_rgb},0.5);}}
+.body{{position:absolute;left:80px;width:920px;font-size:34px;line-height:1.74;color:rgba({text_rgb},0.8);{body_font_decl}}}
 body{{background:#f2f0e9;display:flex;flex-direction:column;align-items:center;gap:32px;padding:48px;}}.slide{{box-shadow:0 4px 24px rgba(0,0,0,0.15);}}"""
 
     rendered = []
     for i, slide in enumerate(slides, start=1):
         stype = slide.get("type", "interview")
         ctx = {"brand": brand, "n": i, "total": total, "accent": accent,
-               "bubble_gray_bg": bubble_gray_bg, "answer_text": answer_text}
+               "bubble_gray_bg": bubble_gray_bg, "question_text": question_text,
+               "answer_text": answer_text, "text_rgb": text_rgb}
         renderer = RENDERERS.get(stype)
         if renderer is None:
             raise ValueError(f"알 수 없는 슬라이드 type: {stype!r} (cover/interview/closing)")
