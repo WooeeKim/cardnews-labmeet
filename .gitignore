@@ -1,3 +1,5 @@
 .DS_Store
 __pycache__/
 *.pyc
+out/service-intro/png/*.png
+out/service-intro/.tmp-*.html
