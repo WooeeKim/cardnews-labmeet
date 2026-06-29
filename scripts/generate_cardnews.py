@@ -72,11 +72,11 @@ def render_cover(slide, ctx):
         parts.append('<div style="position:absolute;left:80px;top:300px;width:64px;'
                      'height:64px;border-radius:50%;background:rgba(255,255,255,0.18);"></div>')
     if q:
-        parts.append(f'<div style="position:absolute;left:168px;top:300px;background:'
+        parts.append(f'<div class="qb" style="position:absolute;left:168px;top:300px;background:'
                      f'{ctx["bubble_gray_bg"]};color:{ctx["question_text"]};font-size:36px;padding:20px 30px;'
                      f'border-radius:34px 34px 34px 10px;">{esc(q)}</div>')
     if a:
-        parts.append(f'<div style="position:absolute;right:80px;top:415px;background:{accent};'
+        parts.append(f'<div class="ab" style="position:absolute;right:80px;top:415px;background:{accent};'
                      f'color:{ctx["answer_text"]};font-size:36px;font-weight:500;'
                      f'padding:20px 34px;border-radius:34px 34px 10px 34px;">{esc(a)}</div>')
     # 헤드라인
@@ -91,7 +91,7 @@ def render_cover(slide, ctx):
     # 하단 라벨
     label = slide.get("label")
     if label:
-        parts.append(f'<div style="position:absolute;left:80px;top:1170px;font-size:36px;'
+        parts.append(f'<div class="cover-label" style="position:absolute;left:80px;top:1170px;font-size:36px;'
                      f'color:{accent};">{esc(label)}</div>')
     parts.append(arrow_html(accent))
     return '<div class="slide">' + "".join(parts) + '</div>'
@@ -139,24 +139,24 @@ def render_closing(slide, ctx):
     quotes = slide.get("quotes", [])
     top = slide.get("quotes_top", 550)
     for qt in quotes:
-        parts.append(f'<div style="position:absolute;left:80px;top:{top}px;font-size:37px;'
+        parts.append(f'<div class="q-text" style="position:absolute;left:80px;top:{top}px;font-size:37px;'
                      f'color:rgba({trgb},0.85);">{esc(qt.get("text",""))}</div>')
         if qt.get("byline"):
-            parts.append(f'<div style="position:absolute;left:80px;top:{top+52}px;font-size:30px;'
+            parts.append(f'<div class="q-by" style="position:absolute;left:80px;top:{top+52}px;font-size:30px;'
                          f'color:rgba({trgb},0.4);">{esc(qt["byline"])}</div>')
         top += 150
     # 안내 문단
     note = slide.get("note")
     if note:
         ntop = slide.get("note_top", 1105)
-        parts.append(f'<div style="position:absolute;left:80px;top:{ntop}px;width:920px;'
+        parts.append(f'<div class="closing-note" style="position:absolute;left:80px;top:{ntop}px;width:920px;'
                      f'font-size:33px;line-height:1.55;color:rgba({trgb},0.55);">{esc(note)}</div>')
     # CTA
     cta = slide.get("cta")
     if cta:
         ctop = slide.get("cta_top", 1235)
         csize = slide.get("cta_size", 37)
-        parts.append(f'<div style="position:absolute;left:80px;top:{ctop}px;font-size:{csize}px;'
+        parts.append(f'<div class="closing-cta" style="position:absolute;left:80px;top:{ctop}px;font-size:{csize}px;'
                      f'font-weight:500;color:{accent};">{esc(cta)}</div>')
     # 마감 슬라이드는 화살표 없음.
     return '<div class="slide">' + "".join(parts) + '</div>'
