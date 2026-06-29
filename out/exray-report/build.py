@@ -100,7 +100,41 @@ body{{font-family:'Pretendard',sans-serif;}}
 .pill{{display:inline-block;background:#fff;border:1px solid rgba({INK_RGB},0.1);
   border-radius:999px;padding:15px 28px;font-size:27px;font-weight:700;
   color:rgba({INK_RGB},0.7);margin:0 12px 14px 0;}}
-.pill b{{color:{ACCENT};}}"""
+.pill b{{color:{ACCENT};}}
+/* Top3 이유(랭크 + 기여도 바) */
+.rank{{display:flex;gap:24px;align-items:flex-start;padding:26px 0;
+  border-bottom:1px solid rgba({INK_RGB},0.07);}}
+.rank.first{{padding-top:0;}}
+.rank.last{{border-bottom:0;padding-bottom:0;}}
+.rank-n{{width:46px;height:46px;flex:none;border-radius:13px;background:{ACCENT};
+  color:#fff;font-size:25px;font-weight:800;display:flex;align-items:center;
+  justify-content:center;margin-top:2px;}}
+.rank-body{{flex:1;}}
+.rank-top{{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:14px;}}
+.rank-title{{font-size:31px;font-weight:800;color:{INK};}}
+.rank-pct{{font-size:29px;font-weight:800;color:{ACCENT};flex:none;margin-left:18px;}}
+.rank-ev{{font-size:25px;color:rgba({INK_RGB},0.55);line-height:1.45;}}
+/* 명대사(무드 행) */
+.mrow{{display:flex;align-items:center;gap:24px;padding:23px 0;
+  border-bottom:1px solid rgba({INK_RGB},0.07);}}
+.mrow.first{{padding-top:0;}}
+.mrow.last{{border-bottom:0;padding-bottom:0;}}
+.mtag{{font-size:26px;font-weight:800;flex:none;width:138px;color:{INK};}}
+.mq{{font-size:28px;font-weight:600;color:{INK};line-height:1.4;}}
+/* 팩폭(나 vs 상대) */
+.faults{{display:flex;gap:40px;}}
+.fcol{{flex:1;}}
+.fcol.them{{border-left:1px solid rgba({INK_RGB},0.08);padding-left:38px;}}
+.fname{{font-size:27px;font-weight:700;color:rgba({INK_RGB},0.55);}}
+.fpct{{font-size:64px;font-weight:800;letter-spacing:-2px;color:{INK};
+  margin:4px 0 22px;}}
+.fpct.hi{{color:{ACCENT};}}
+.fchip{{background:rgba({INK_RGB},0.05);border-radius:15px;padding:15px 18px;
+  font-size:25px;font-weight:600;color:rgba({INK_RGB},0.78);margin-bottom:13px;}}
+.fchip b{{color:{ACCENT};font-weight:800;}}
+.tag{{display:inline-block;background:{ACCENT}1a;color:{ACCENT};border-radius:999px;
+  padding:12px 24px;font-size:27px;font-weight:800;}}"""
 
 ARROW = (f'<div class="arrow" style="position:absolute;right:84px;bottom:62px;'
          f'font-size:27px;font-weight:600;line-height:1;color:{ACCENT};">&gt;</div>')
@@ -153,11 +187,11 @@ def slides():
         + pills + arr + '</div>'
     )
 
-    # 02 · 목차 (8챕터 구성)
+    # 02 · 목차 (실제 8섹션)
     toc_items = [
-        "관계 한눈에 요약", "헤어진 진짜 이유", "관계 7단계 타임라인",
-        "대화 정량 분석", "상대의 속마음", "재회 가능성 진단",
-        "나의 연애 캐릭터", "다음 연애 가이드",
+        "어떻게 시작됐는지", "헤어진 진짜 이유", "어디서 식었는지",
+        "명대사 모음", "둘 다 들어봐", "내 & 상대 캐릭터",
+        "상대의 속마음", "재회 가이드",
     ]
     rows = ""
     for i, t in enumerate(toc_items, 1):
@@ -172,26 +206,31 @@ def slides():
         + arr + '</div>'
     )
 
-    # 03 · 헤어진 진짜 이유 — 인용 근거
+    # 03 · 헤어진 진짜 이유 — Top3 + 기여도%
+    reasons = [
+        ("반복된 무응답", 41, "‘힘들다’는 말에 답이 없던 게 11회"),
+        ("사라진 표현", 33, "애칭·‘보고싶다’ 가 후반 들어 87% 감소"),
+        ("미뤄진 갈등", 26, "쌓아두다 한 번에 터진 다툼 6회"),
+    ]
+    rrows = ""
+    for i, (t, pct, ev) in enumerate(reasons, 1):
+        cls = "rank" + (" first" if i == 1 else "") + (" last" if i == len(reasons) else "")
+        rrows += (f'<div class="{cls}"><span class="rank-n">{i}</span>'
+                  f'<div class="rank-body"><div class="rank-top">'
+                  f'<span class="rank-title">{t}</span>'
+                  f'<span class="rank-pct">기여도 {pct}%</span></div>'
+                  f'<div class="rank-ev">근거 · {ev}</div></div></div>')
     head, arr = brand(3, total)
-    quote_panel = (
-        '<div class="plab">근거가 된 카톡 원문</div>'
-        '<div class="quote">“바쁜 건 알겠는데, 나 오늘 좀 힘들다고 말했잖아.”</div>'
-        '<div class="quote-meta">2025.03.14 · 상대 → 나</div>'
-        '<div style="height:30px;"></div>'
-        '<div class="verdict">결정적인 균열은 ‘다툼’이 아니라 <b>반복된 무응답</b>이었어요. '
-        '같은 패턴이 11번 나타났고, 그때마다 대화가 끊겼습니다.</div>'
-    )
     out.append(
         '<div class="slide">' + head +
-        head_block("CHAPTER 02 · 헤어진 진짜 이유", "추측이 아니라,<br>원문으로 짚어줘요.", htop=326, hsize=46) +
-        f'<div class="panel" style="top:548px;">{quote_panel}</div>'
+        head_block("CHAPTER 02 · 헤어진 진짜 이유", "헤어진 이유를,<br>Top 3로 잘라줘요.", htop=326, hsize=46) +
+        f'<div class="panel" style="top:548px;">{rrows}</div>'
         + arr + '</div>'
     )
 
-    # 04 · 관계 7단계 타임라인
-    phases = ["썸", "초기", "황금기", "권태", "갈등", "소강", "이별"]
-    active = 3  # 권태
+    # 04 · 어디서 식었는지 — 실제 7단계
+    phases = ["서먹기", "친구", "썸", "자기야", "균열", "침묵", "종결"]
+    active = 4  # 균열 = 첫 균열
     cells = ""
     for i, p in enumerate(phases):
         on = " on" if i == active else ""
@@ -201,78 +240,81 @@ def slides():
         '<div class="plab">관계 페이즈</div>'
         '<div class="tl-wrap"><div class="tl-line"></div>'
         f'<div class="tl">{cells}</div>'
-        '<div class="tl-call" style="top:-50px;left:50%;transform:translateX(-50%);">'
-        '여기서부터 식기 시작 ↓</div></div>'
+        '<div class="tl-call" style="top:-50px;left:64.3%;transform:translateX(-50%);">'
+        '여기서 첫 균열 ↓</div></div>'
         '<div style="height:42px;"></div>'
-        '<div class="verdict">황금기는 <b>2025.01~02</b>. '
-        '3월 들어 답장 텀이 길어지면서 권태기로 접어들었어요.</div>'
+        '<div class="verdict">‘자기야’ 황금기는 <b>2025.01~02</b>. '
+        '답장 텀이 길어지면서 균열 구간으로 접어들었어요.</div>'
     )
     head, arr = brand(4, total)
     out.append(
         '<div class="slide">' + head +
-        head_block("CHAPTER 03 · 관계 타임라인", "어디서부터 식었는지,<br>한 줄로 보여요.", htop=326, hsize=46) +
+        head_block("CHAPTER 03 · 어디서 식었는지", "어디서부터 식었는지,<br>한 줄로 보여요.", htop=326, hsize=46) +
         f'<div class="panel" style="top:548px;padding-top:54px;">{tl_panel}</div>'
         + arr + '</div>'
     )
 
-    # 05 · 대화 정량 분석 — 지표 바
-    stats = [
-        ("평균 답장 속도", "나 12분 vs 상대 3.4시간", 22),
-        ("먼저 연락한 비율", "나 78% : 상대 22%", 78),
-        ("애칭 사용 빈도", "3월부터 87% 감소", 13),
-        ("후반 2개월 갈등", "14회", 64),
+    # 05 · 명대사 모음 — 5개 무드
+    moods = [
+        ("💛 다정", "“오늘 진짜 보고 싶었어 ㅠㅠ”"),
+        ("⚡ 폭풍", "“그래서 내가 뭘 잘못했는데?”"),
+        ("🌗 균열", "“바쁜 건 알겠는데 좀 서운하다”"),
+        ("🥶 식음", "“어 그래 알겠어”"),
+        ("💔 종결", "“우리 여기까지 하자”"),
     ]
-    srows = ""
-    for i, (lab, val, pct) in enumerate(stats):
-        cls = "stat" + (" last" if i == len(stats) - 1 else "")
-        srows += (f'<div class="{cls}"><div class="stat-top">'
-                  f'<span class="stat-label">{lab}</span>'
-                  f'<span class="stat-val">{val}</span></div>'
-                  f'<div class="bar"><i style="width:{pct}%;"></i></div></div>')
+    mrows = ""
+    for i, (tag, q) in enumerate(moods):
+        cls = "mrow" + (" first" if i == 0 else "") + (" last" if i == len(moods) - 1 else "")
+        mrows += (f'<div class="{cls}"><span class="mtag">{tag}</span>'
+                  f'<span class="mq">{q}</span></div>')
     head, arr = brand(5, total)
     out.append(
         '<div class="slide">' + head +
-        head_block("CHAPTER 04 · 정량 분석", "느낌이 아니라,<br>숫자로 정리돼요.", htop=326, hsize=46) +
-        f'<div class="panel" style="top:548px;">{srows}</div>'
+        head_block("CHAPTER 04 · 명대사 모음", "오고 간 명대사,<br>무드별로 모아줘요.", htop=326, hsize=46) +
+        f'<div class="panel" style="top:548px;">{mrows}</div>'
         + arr + '</div>'
     )
 
-    # 06 · 재회 가능성 게이지
+    # 06 · 둘 다 들어봐 (팩폭, 나 vs 상대 책임%)
+    me_items = ["서운함 늦게 말함 <b>×7</b>", "표현이 부족했음 <b>×5</b>"]
+    them_items = ["답장을 미룸 <b>×14</b>", "약속 취소 <b>×6</b>", "사과 회피 <b>×9</b>"]
+    me_html = "".join(f'<div class="fchip">{x}</div>' for x in me_items)
+    them_html = "".join(f'<div class="fchip">{x}</div>' for x in them_items)
+    faults = (
+        '<div class="plab">책임 비율 (감정 빼고 행동으로)</div>'
+        '<div class="faults">'
+        f'<div class="fcol"><div class="fname">나</div><div class="fpct">32%</div>{me_html}</div>'
+        f'<div class="fcol them"><div class="fname">상대</div><div class="fpct hi">68%</div>{them_html}</div>'
+        '</div>'
+    )
     head, arr = brand(6, total)
-    gauge_panel = (
-        '<div class="plab">재회 가능성</div>'
-        '<div style="display:flex;align-items:flex-end;gap:24px;">'
-        '<div class="gnum">37<span>%</span></div>'
-        '<div class="gsub" style="padding-bottom:18px;">낮지만,<br>0은 아님</div></div>'
-        '<div style="height:30px;"></div>'
-        '<div class="bar" style="height:22px;"><i style="width:37%;"></i></div>'
-        '<div style="height:34px;"></div>'
-        '<div class="verdict">마지막 3주간 <b>먼저 연락한 쪽은 상대</b>였어요. '
-        '말투는 식었지만, 끊지 못하는 신호가 남아 있습니다.</div>'
-    )
     out.append(
         '<div class="slide">' + head +
-        head_block("CHAPTER 05 · 상대의 속마음", "재회 가능성도,<br>%로 추정해줘요.", htop=326, hsize=46) +
-        f'<div class="panel" style="top:548px;">{gauge_panel}</div>'
+        head_block("CHAPTER 05 · 둘 다 들어봐", "둘 다 까봤어요.<br>팩폭 갑니다.", htop=326, hsize=46) +
+        f'<div class="panel" style="top:548px;">{faults}</div>'
         + arr + '</div>'
     )
 
-    # 07 · 다음 연애 가이드
-    acts = [
-        "<b>먼저 표현하기.</b> 서운함을 삼키다 한 번에 터뜨리는 패턴이 반복됐어요.",
-        "<b>답장 텀 신경 쓰기.</b> 바쁠 땐 ‘이따 답할게’ 한마디면 충분했어요.",
-        "<b>기대치 먼저 맞추기.</b> 연락 빈도에 대한 생각이 서로 달랐어요.",
-    ]
-    arows = ""
-    for i, a in enumerate(acts, 1):
-        cls = "act" + (" first" if i == 1 else "") + (" last" if i == len(acts) else "")
-        arows += (f'<div class="{cls}"><span class="act-n">{i}</span>'
-                  f'<span class="act-t">{a}</span></div>')
+    # 07 · 상대 속마음 + 재회 가능성
     head, arr = brand(7, total)
+    inner = (
+        '<div class="plab">추정 애착유형</div>'
+        '<div class="tag">회피형</div>'
+        '<div style="height:34px;"></div>'
+        '<div class="plab" style="margin-bottom:14px;">끝내 못 보낸 한마디</div>'
+        '<div class="quote" style="font-size:30px;">“그때 좀 더 표현할걸. 근데 이제 와서 뭐.”</div>'
+        '<div style="height:38px;"></div>'
+        '<div class="plab" style="margin-bottom:10px;">재회 가능성</div>'
+        '<div style="display:flex;align-items:flex-end;gap:22px;">'
+        '<div class="gnum" style="font-size:104px;">18<span>%</span></div>'
+        '<div class="gsub" style="padding-bottom:14px;">미련은 있지만,<br>먼저 안 움직임</div></div>'
+        '<div style="height:20px;"></div>'
+        '<div class="bar" style="height:20px;"><i style="width:18%;"></i></div>'
+    )
     out.append(
         '<div class="slide">' + head +
-        head_block("CHAPTER 08 · 다음 연애 가이드", "다음 연애에서,<br>바꿀 것 3가지.", htop=326, hsize=46) +
-        f'<div class="panel" style="top:548px;">{arows}</div>'
+        head_block("CHAPTER 07 · 상대의 속마음", "속마음이랑 재회 확률,<br>%로 추정해줘요.", htop=326, hsize=46) +
+        f'<div class="panel" style="top:548px;">{inner}</div>'
         + arr + '</div>'
     )
 
@@ -342,7 +384,8 @@ EDITOR_JS = f"""
 import h2c from 'https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.11/+esm';
 
 const SEL = '.h,.note,.cta,.kicker,.plab,.toc-title,.quote,.quote-meta,.verdict,'
-  + '.stat-label,.stat-val,.tl-lab,.tl-call,.gsub,.act-t,.pill';
+  + '.tl-lab,.tl-call,.gsub,.pill,.rank-title,.rank-pct,.rank-ev,.mtag,.mq,'
+  + '.fname,.fpct,.fchip,.tag';
 document.querySelectorAll('.slide').forEach(s => {{
   s.querySelectorAll(SEL).forEach(el => {{ el.contentEditable = 'true'; el.spellcheck = false; }});
 }});
