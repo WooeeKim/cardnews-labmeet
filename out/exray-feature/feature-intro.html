@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><title>EX-RAY · 리포트 미리보기</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"><style>*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Pretendard',sans-serif;}
+.slide{width:1080px;height:1350px;color:#0d0d0d;position:relative;overflow:hidden;
+  background-color:#fff8ef;
+  background-image:radial-gradient(rgba(13,13,13,0.05) 1px, transparent 1.5px);
+  background-size:30px 30px;}
+.slide h1,.slide h2,.slide p,.slide span,.slide div{word-break:keep-all;}
+.brand{position:absolute;left:80px;top:72px;font-size:34px;font-weight:800;letter-spacing:-0.5px;}
+.brand span{color:#ff2e63;}
+.counter{position:absolute;left:80px;bottom:62px;font-size:27px;font-weight:600;
+  line-height:1;letter-spacing:1px;color:rgba(13,13,13,0.30);}
+.kicker{position:absolute;left:80px;font-size:25px;font-weight:800;letter-spacing:2px;
+  color:#ff2e63;}
+.h{position:absolute;left:80px;width:920px;font-weight:800;color:#0d0d0d;
+  letter-spacing:-1px;line-height:1.22;}
+.note{position:absolute;left:80px;width:920px;font-size:29px;line-height:1.7;
+  color:rgba(13,13,13,0.55);}
+.cta{position:absolute;left:80px;font-size:36px;font-weight:700;color:#ff2e63;}
+/* 리포트 패널(흰 카드) */
+.panel{position:absolute;left:80px;width:920px;background:#fff;
+  border:1px solid rgba(13,13,13,0.08);border-radius:30px;
+  box-shadow:0 16px 38px rgba(0,0,0,0.06);padding:46px 48px;}
+.plab{font-size:23px;font-weight:800;letter-spacing:1px;color:rgba(13,13,13,0.4);
+  margin-bottom:24px;}
+/* 목차 */
+.toc-row{display:flex;align-items:center;gap:28px;padding:21px 0;
+  border-bottom:1px solid rgba(13,13,13,0.07);}
+.toc-row.last{border-bottom:0;padding-bottom:0;}
+.toc-row.first{padding-top:0;}
+.toc-num{font-size:25px;font-weight:800;color:#ff2e63;width:42px;flex:none;}
+.toc-title{font-size:31px;font-weight:600;color:#0d0d0d;}
+/* 인용 */
+.quote{font-size:33px;line-height:1.5;color:#0d0d0d;font-weight:600;}
+.quote-meta{font-size:24px;color:rgba(13,13,13,0.4);margin-top:18px;}
+.verdict{font-size:30px;line-height:1.55;color:rgba(13,13,13,0.75);}
+.verdict b{color:#ff2e63;font-weight:800;}
+/* 정량 지표 바 */
+.stat{margin-bottom:30px;}
+.stat.last{margin-bottom:0;}
+.stat-top{display:flex;justify-content:space-between;align-items:baseline;
+  font-size:28px;margin-bottom:13px;}
+.stat-label{color:rgba(13,13,13,0.6);font-weight:600;}
+.stat-val{color:#0d0d0d;font-weight:800;}
+.bar{height:18px;border-radius:999px;background:rgba(13,13,13,0.08);overflow:hidden;}
+.bar > i{display:block;height:100%;border-radius:999px;background:#ff2e63;}
+/* 타임라인 */
+.tl-wrap{position:relative;margin-top:66px;}
+.tl-line{position:absolute;top:13px;left:7%;right:7%;height:3px;
+  background:rgba(13,13,13,0.13);}
+.tl{display:flex;position:relative;}
+.tl-cell{flex:1;display:flex;flex-direction:column;align-items:center;gap:20px;}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:rgba(13,13,13,0.18);
+  border:5px solid #fff;box-shadow:0 0 0 2px rgba(13,13,13,0.10);}
+.tl-dot.on{background:#ff2e63;box-shadow:0 0 0 3px #ff2e6344;width:34px;height:34px;
+  margin-top:-3px;}
+.tl-lab{font-size:23px;color:rgba(13,13,13,0.5);font-weight:600;}
+.tl-lab.on{color:#ff2e63;font-weight:800;}
+.tl-call{position:absolute;font-size:24px;font-weight:700;color:#ff2e63;}
+/* 게이지 */
+.gnum{font-size:150px;font-weight:800;color:#ff2e63;line-height:0.9;
+  letter-spacing:-5px;}
+.gnum span{font-size:64px;letter-spacing:-2px;}
+.gsub{font-size:30px;font-weight:700;color:rgba(13,13,13,0.5);margin-top:8px;}
+/* 가이드 액션 */
+.act{display:flex;gap:26px;align-items:flex-start;padding:22px 0;
+  border-bottom:1px solid rgba(13,13,13,0.07);}
+.act.last{border-bottom:0;padding-bottom:0;}
+.act.first{padding-top:0;}
+.act-n{width:50px;height:50px;flex:none;border-radius:50%;background:#ff2e63;
+  color:#fff;font-size:26px;font-weight:800;display:flex;align-items:center;
+  justify-content:center;}
+.act-t{font-size:30px;line-height:1.45;color:#0d0d0d;font-weight:500;padding-top:6px;}
+.act-t b{font-weight:800;}
+/* 칩(커버) */
+.pill{display:inline-block;background:#fff;border:1px solid rgba(13,13,13,0.1);
+  border-radius:999px;padding:15px 28px;font-size:27px;font-weight:700;
+  color:rgba(13,13,13,0.7);margin:0 12px 14px 0;}
+.pill b{color:#ff2e63;}
+/* Top3 이유(랭크 + 기여도 바) */
+.rank{display:flex;gap:24px;align-items:flex-start;padding:26px 0;
+  border-bottom:1px solid rgba(13,13,13,0.07);}
+.rank.first{padding-top:0;}
+.rank.last{border-bottom:0;padding-bottom:0;}
+.rank-n{width:46px;height:46px;flex:none;border-radius:13px;background:#ff2e63;
+  color:#fff;font-size:25px;font-weight:800;display:flex;align-items:center;
+  justify-content:center;margin-top:2px;}
+.rank-body{flex:1;}
+.rank-top{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:14px;}
+.rank-title{font-size:31px;font-weight:800;color:#0d0d0d;}
+.rank-pct{font-size:29px;font-weight:800;color:#ff2e63;flex:none;margin-left:18px;}
+.rank-ev{font-size:25px;color:rgba(13,13,13,0.55);line-height:1.45;}
+/* 명대사(무드 행) */
+.mrow{display:flex;align-items:center;gap:24px;padding:23px 0;
+  border-bottom:1px solid rgba(13,13,13,0.07);}
+.mrow.first{padding-top:0;}
+.mrow.last{border-bottom:0;padding-bottom:0;}
+.mtag{font-size:26px;font-weight:800;flex:none;width:138px;color:#0d0d0d;}
+.mq{font-size:28px;font-weight:600;color:#0d0d0d;line-height:1.4;}
+/* 팩폭(나 vs 상대) */
+.faults{display:flex;gap:40px;}
+.fcol{flex:1;}
+.fcol.them{border-left:1px solid rgba(13,13,13,0.08);padding-left:38px;}
+.fname{font-size:27px;font-weight:700;color:rgba(13,13,13,0.55);}
+.fpct{font-size:64px;font-weight:800;letter-spacing:-2px;color:#0d0d0d;
+  margin:4px 0 22px;}
+.fpct.hi{color:#ff2e63;}
+.fchip{background:rgba(13,13,13,0.05);border-radius:15px;padding:15px 18px;
+  font-size:25px;font-weight:600;color:rgba(13,13,13,0.78);margin-bottom:13px;}
+.fchip b{color:#ff2e63;font-weight:800;}
+.tag{display:inline-block;background:#ff2e631a;color:#ff2e63;border-radius:999px;
+  padding:12px 24px;font-size:27px;font-weight:800;}
+/* 지표 칩(차별점) */
+.mchip{display:inline-block;background:rgba(13,13,13,0.05);border-radius:15px;
+  padding:14px 24px;font-size:27px;font-weight:700;color:rgba(13,13,13,0.8);
+  margin:0 13px 14px 0;}
+/* 톤 4모드 카드 */
+.modes{display:flex;flex-wrap:wrap;gap:22px;}
+.mode{flex:1 1 calc(50% - 11px);background:rgba(13,13,13,0.035);
+  border:1px solid rgba(13,13,13,0.06);border-radius:22px;padding:30px 30px;}
+.mode-emo{font-size:42px;line-height:1;}
+.mode-name{font-size:30px;font-weight:800;color:#0d0d0d;margin:12px 0 8px;}
+.mode-desc{font-size:24px;line-height:1.45;color:rgba(13,13,13,0.55);}body{background:#e9e6dd;display:flex;flex-direction:column;align-items:center;gap:32px;padding:48px;}.slide{box-shadow:0 4px 24px rgba(0,0,0,0.12);}</style></head><body><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">01</div><div class="kicker" style="top:368px;">WHAT IS EX-RAY</div><div class="h" style="top:412px;font-size:60px;line-height:1.22;">전남친·전여친 카톡,<br>AI가 통째로<br>해부해드려요.</div><div class="note" style="top:786px;width:880px;">카톡 한 번 올리면, 시작부터 이별까지 <b style="color:#0d0d0d;">내 전체 연애를 한 권</b>으로 정리해줘요.</div><div style="position:absolute;left:80px;top:1000px;width:920px;"><span class="pill"><b>8</b>챕터</span><span class="pill">약 <b>7,000</b>자</span><span class="pill">실제 카톡 <b>원문 근거</b></span></div><div class="arrow" style="position:absolute;right:84px;bottom:62px;font-size:27px;font-weight:600;line-height:1;color:#ff2e63;">&gt;</div></div><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">02</div><div class="kicker" style="top:288px;">WHY</div><div class="h" style="top:360px;font-size:54px;">전남친한테<br>물어볼 필요 없어요.</div><div class="note" style="top:600px;width:880px;font-size:31px;line-height:1.75;">직접 묻기도 그렇고, 물어봐도 솔직히 말 안 해주잖아요. <b style="color:#0d0d0d;">답은 이미 카톡 안에 다 있어요.</b> 감정 다 빼고, 둘이 나눈 대화만 보고 객관적으로 짚어드려요.</div><div class="arrow" style="position:absolute;right:84px;bottom:62px;font-size:27px;font-weight:600;line-height:1;color:#ff2e63;">&gt;</div></div><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">03</div><div class="kicker" style="top:288px;">HOW IT WORKS</div><div class="h" style="top:326px;font-size:46px;">쓰는 법은,<br>딱 3단계예요.</div><div class="panel" style="top:548px;"><div class="act first"><span class="act-n">1</span><span class="act-t"><b>카톡을 통째로 올려요</b><br><span style="font-weight:500;color:rgba(13,13,13,0.55);font-size:26px;">대화방 → 대화 내보내기로 받은 .txt 파일을 그대로 업로드. 아이폰에서 쪼개진 파일도 한 번에 올리면 알아서 합쳐요.</span></span></div><div class="act"><span class="act-n">2</span><span class="act-t"><b>지금 내 마음을 고르고 적어요</b><br><span style="font-weight:500;color:rgba(13,13,13,0.55);font-size:26px;">정리·재회·분석·학습 중 내 상황 하나 선택. 지금 뭐가 제일 궁금한지 메모하면 더 정확해져요.</span></span></div><div class="act last"><span class="act-n">3</span><span class="act-t"><b>메일로 리포트가 와요</b><br><span style="font-weight:500;color:rgba(13,13,13,0.55);font-size:26px;">AI가 몇천 줄을 다 읽고 8챕터로 정리. 분석이 끝나면 원본 카톡은 바로 삭제돼요.</span></span></div></div><div class="arrow" style="position:absolute;right:84px;bottom:62px;font-size:27px;font-weight:600;line-height:1;color:#ff2e63;">&gt;</div></div><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">04</div><div class="kicker" style="top:288px;">뭐가 다른데</div><div class="h" style="top:326px;font-size:46px;">대화 몇 줄이 아니라,<br>관계 전체를 읽어요.</div><div class="panel" style="top:548px;"><div class="plab">ChatGPT에 몇 줄 붙여넣는 거랑 달라요</div><div class="verdict" style="margin-bottom:30px;">처음 ‘안녕하세요’부터 마지막 인사까지 <b>전체 대화를 통째로</b> 읽어요. 그래서 흐름과 맥락까지 잡아내죠.</div><div class="plab" style="margin-bottom:20px;">느낌이 아니라, 이런 걸 숫자로</div><div><span class="mchip">호칭 변화</span><span class="mchip">평균 응답속도</span><span class="mchip">메시지 빈도</span><span class="mchip">갈등 횟수</span><span class="mchip">미련 가능성 %</span></div><div class="verdict" style="margin-top:14px;font-size:27px;">모든 결론엔 <b>실제 카톡 원문</b>이 근거로 붙어요.</div></div><div class="arrow" style="position:absolute;right:84px;bottom:62px;font-size:27px;font-weight:600;line-height:1;color:#ff2e63;">&gt;</div></div><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">05</div><div class="kicker" style="top:288px;">내 상황에 맞게</div><div class="h" style="top:326px;font-size:46px;">지금 내 마음 그대로,<br>골라서 받아요.</div><div class="panel" style="top:548px;"><div class="modes"><div class="mode"><div class="mode-emo">🕊️</div><div class="mode-name">이제 마음 정리하고 싶음</div><div class="mode-desc">차분하게, 깔끔한 마무리로</div></div><div class="mode"><div class="mode-emo">💌</div><div class="mode-name">재회 가능성 보고 싶음</div><div class="mode-desc">가능성과 비용을 직설 팩폭으로</div></div><div class="mode"><div class="mode-emo">🔬</div><div class="mode-name">분석 자체가 재밌음</div><div class="mode-desc">감정 빼고 통계·패턴 위주로</div></div><div class="mode"><div class="mode-emo">🎓</div><div class="mode-name">다음 연애에 써먹고 싶음</div><div class="mode-desc">바로 쓸 교훈 위주로</div></div></div></div><div class="arrow" style="position:absolute;right:84px;bottom:62px;font-size:27px;font-weight:600;line-height:1;color:#ff2e63;">&gt;</div></div><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">06</div><div class="kicker" style="top:288px;">이런 걸 받아요</div><div class="h" style="top:326px;font-size:46px;">8개 챕터,<br>약 7,000자로.</div><div class="panel" style="top:540px;"><div class="toc-row first"><span class="toc-num">01</span><span class="toc-title">어떻게 시작됐는지</span></div><div class="toc-row"><span class="toc-num">02</span><span class="toc-title">헤어진 진짜 이유 Top 3</span></div><div class="toc-row"><span class="toc-num">03</span><span class="toc-title">관계 페이즈 7단계</span></div><div class="toc-row"><span class="toc-num">04</span><span class="toc-title">명대사 모음 5개</span></div><div class="toc-row"><span class="toc-num">05</span><span class="toc-title">둘 다 들어봐 팩폭</span></div><div class="toc-row"><span class="toc-num">06</span><span class="toc-title">그 사람 속마음 + 성격 진단</span></div><div class="toc-row"><span class="toc-num">07</span><span class="toc-title">재회 가이드</span></div><div class="toc-row last"><span class="toc-num">08</span><span class="toc-title">EX-RAY가 한 마디</span></div></div><div class="arrow" style="position:absolute;right:84px;bottom:62px;font-size:27px;font-weight:600;line-height:1;color:#ff2e63;">&gt;</div></div><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">07</div><div class="kicker" style="top:288px;">안심하고 올려요</div><div class="h" style="top:326px;font-size:46px;">카톡인데,<br>안전한 거 맞아요.</div><div class="panel" style="top:548px;"><div class="act first"><span class="act-n" style="background:transparent;font-size:38px;">🗑️</span><span class="act-t"><b>분석 끝나면 원본 카톡 자동 삭제</b><br><span style="font-weight:500;color:rgba(13,13,13,0.55);font-size:26px;">서버에 남기지 않아요. 리포트만 본인 계정에 잠금 보관.</span></span></div><div class="act"><span class="act-n" style="background:transparent;font-size:38px;">🙈</span><span class="act-t"><b>나 말고 0명 열람</b><br><span style="font-weight:500;color:rgba(13,13,13,0.55);font-size:26px;">암호화된 환경에서 본인만. 상대 동의도 필요 없어요.</span></span></div><div class="act last"><span class="act-n" style="background:transparent;font-size:38px;">💸</span><span class="act-t"><b>못 받으면 100% 환불</b><br><span style="font-weight:500;color:rgba(13,13,13,0.55);font-size:26px;">리포트 못 받은 경우엔 전액 돌려드려요.</span></span></div></div><div class="arrow" style="position:absolute;right:84px;bottom:62px;font-size:27px;font-weight:600;line-height:1;color:#ff2e63;">&gt;</div></div><div class="slide"><div class="brand">EX-<span>RAY</span></div><div class="counter">08</div><div class="h" style="top:372px;font-size:58px;line-height:1.24;text-align:center;width:920px;">지금 카톡 한 번,<br><span style="color:#ff2e63;">올려볼까요?</span></div><div style="position:absolute;left:0;top:640px;width:1080px;text-align:center;"><span class="pill" style="font-size:30px;"><b>30,000</b>원</span></div><div class="note" style="top:1054px;text-align:center;left:0;width:1080px;">전남친·전여친 카톡 한 번 올리면, 우리가 왜 헤어졌는지<br>EX-RAY가 끝까지 읽고 정리해줄게요.</div><div class="cta" style="top:1188px;left:0;width:1080px;text-align:center;">지금 분석하기 · exray.kr</div></div></body></html>

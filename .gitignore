@@ -7,3 +7,6 @@ out/exray-intro/png/*.png
 out/exray-intro/.tmp-*.html
 out/exray-report/png/*.png
 out/exray-report/.tmp-*.html
+out/exray-report/png/*.png
+out/exray-feature/png/*.png
+out/*/.tmp-*.html
